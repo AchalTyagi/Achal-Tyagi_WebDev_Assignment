@@ -39,8 +39,6 @@ const itemSchema = new mongoose.Schema(
     }
 );
 
-// Step 3: Create the Item Model
 const Item = mongoose.model("Item", itemSchema);
 
-// Step 4: Export the model
 export default Item;
