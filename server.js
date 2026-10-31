@@ -2,11 +2,12 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import connectDB from "./config/db.js";
 
 // Load environment variables
 dotenv.config();
 
-// Initialize Express
+// Initialize Express application
 const app = express();
 
 // Middleware
@@ -21,10 +22,24 @@ app.get("/", (req, res) => {
     });
 });
 
-// Server port
-const PORT = process.env.PORT || 5000;
-
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+    try {
+
+        // Connect to MongoDB
+        await connectDB();
+
+        // Start Express server
+        const PORT = process.env.PORT || 5000;
+
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+
+    } catch (error) {
+        console.error("Server startup failed:", error.message);
+        process.exit(1);
+    }
+};
+
+startServer();
